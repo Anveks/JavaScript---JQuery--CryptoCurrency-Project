@@ -4,8 +4,9 @@ $(document).ready(() => {
   const search = $('#search');
 
   $.ajax({
-    url: "https://api.coingecko.com/api/v3/coins",
+    url: "https://api.coingecko.com/api/v3/coins/markets?vs_currency=ils&order=market_cap_desc&per_page=100&page=1&sparkline=false&locale=en",
     success: (data) => {
+      console.log(data);
       renderCoins(data) 
       document.querySelector('#dataAjax').value = JSON.stringify(data);
     },
@@ -29,7 +30,7 @@ $(document).ready(() => {
       </div>
       <div class="card-body">
 
-        <img src="${coin.image.small}">
+        <img src="${coin.image}">
         <h5 class="card-title">${coin.name}</h5>
      
       </div>
@@ -37,9 +38,9 @@ $(document).ready(() => {
       <button class="btn btn-info btn-primary">Details</button>
 
         <div class= 'info__card'>
-          <p>USD: ${coin.market_data.current_price.usd} $</p>
-          <p>EUR: ${coin.market_data.current_price.eur} €</p>
-          <p>ILS: ${coin.market_data.current_price.ils} ₪</p>
+          <p>USD: ${coin.current_price} $</p>
+          <p>EUR: ${Math.floor(coin.current_price * 0.93)} €</p>
+          <p>ILS: ${Math.floor(coin.current_price * 3,75 )} ₪</p>
         </div>
       </div>
     </div>
@@ -115,7 +116,7 @@ $(document).ready(() => {
     }))
   }
 
-  const coinEvents = (item, index, arrCard) => {
+  const coinEvents =(item, index, arrCard) => {
        // calling the animation:
        switchAnimation(item);
        // calling the conditions check:
